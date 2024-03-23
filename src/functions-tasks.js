@@ -97,19 +97,19 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  if (arguments.length === 3) {
-    return (x, ...args) => {
+function getPolynom(...args) {
+  if (args.length === 3) {
+    return (x) => {
       return args[0] * x * x + args[1] * x + args[2];
     };
   }
-  if (arguments.length === 2) {
-    return (x, ...args) => {
-      return x - args[1];
+  if (args.length === 2) {
+    return (x) => {
+      return args[0] * x + args[1];
     };
   }
-  if (arguments.length === 1) {
-    return (...args) => {
+  if (args.length === 1) {
+    return () => {
       return args[0];
     };
   }
@@ -131,8 +131,17 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const cache = {};
+  return (...args) => {
+    const key = JSON.stringify(args);
+    if (cache[key] !== undefined) {
+      return cache[key];
+    }
+    const result = func.apply(this, args);
+    cache[key] = result;
+    return result;
+  };
 }
 
 /**
