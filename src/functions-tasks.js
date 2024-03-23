@@ -98,7 +98,23 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-  throw new Error('Not implemented');
+  if (arguments.length === 3) {
+    return (x, ...args) => {
+      return args[0] * x * x + args[1] * x + args[2];
+    };
+  }
+  if (arguments.length === 2) {
+    return (x, ...args) => {
+      return x - args[1];
+    };
+  }
+  if (arguments.length === 1) {
+    return (...args) => {
+      return args[0];
+    };
+  }
+
+  return null;
 }
 
 /**
